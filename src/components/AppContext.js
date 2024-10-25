@@ -10,7 +10,7 @@ export function cartProductPrice(cartProduct) {
   if (cartProduct.size) {
     price += cartProduct.size.price;
   }
-  if (cartProduct.extras?.lenght > 0) {
+  if (cartProduct.extras?.length > 0) {
     for (const extra of cartProduct.extras) {
       price += extra.price;
     }
@@ -21,31 +21,31 @@ export function cartProductPrice(cartProduct) {
 export default function AppProvider({ children }) {
   const [cartProducts, setCartProducts] = useState([]);
 
-  const ls = typeof window !== 'undefined' ? window.localStorage : null;
+  const ss = typeof window !== 'undefined' ? window.sessionStorage : null;
 
   useEffect(() => {
-    if (ls && ls.getItem('cart')) {
-        setCartProducts( JSON.parse( ls.getItem('cart') ));
+    if (ss && ss.getItem('cart')) {
+        setCartProducts(JSON.parse(ss.getItem('cart')));
     }
   }, []);
 
   function clearCart() {
-    setCartProducts([])
-    saveCartProductsToLocalStorage([]);
+    setCartProducts([]);
+    saveCartProductsToSessionStorage([]);
   }
 
   function removeCartProduct(indexToRemove) {
     setCartProducts(prevCartProducts => {
-        const newCartProducts = prevCartProducts.filter((v,index) => index !== indexToRemove);
-        saveCartProductsToLocalStorage(newCartProducts);
-        return newCartProducts;
+      const newCartProducts = prevCartProducts.filter((v, index) => index !== indexToRemove);
+      saveCartProductsToSessionStorage(newCartProducts);
+      return newCartProducts;
     });
     toast.success('Product removed'); 
   }
 
-  function saveCartProductsToLocalStorage(cartProducts) {
-    if (ls) {
-        ls.setItem('cart', JSON.stringify(cartProducts));
+  function saveCartProductsToSessionStorage(cartProducts) {
+    if (ss) {
+      ss.setItem('cart', JSON.stringify(cartProducts));
     }
   }
 
@@ -53,7 +53,7 @@ export default function AppProvider({ children }) {
     setCartProducts((prevProducts) => {
       const cartProduct = { ...product, size, extras };
       const newProducts = [...prevProducts, cartProduct];
-      saveCartProductsToLocalStorage(newProducts);
+      saveCartProductsToSessionStorage(newProducts);
       return newProducts;
     });
   }

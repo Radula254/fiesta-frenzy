@@ -29,6 +29,38 @@ export default function CartPage() {
     setAddress((prevAddress) => ({ ...prevAddress, [propName]: value }));
   }
 
+  async function handleSubmit(ev) {
+    ev.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await fetch('/api/order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          address,
+          cartProducts,
+          total,
+        }),
+      });
+
+      if (response.ok) {
+        toast.success('Order placed successfully');
+        // Redirect to a success page or any other page
+        router.push('/success');
+      } else {
+        toast.error('Failed to place order');
+      }
+    } catch (error) {
+      console.error('Error placing order:', error);
+      toast.error('Failed to place order');
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <section className="mt-8">
       <div className="text-center">

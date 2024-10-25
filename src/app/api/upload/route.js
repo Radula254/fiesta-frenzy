@@ -1,5 +1,4 @@
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import { buffer } from "stream/consumers";
 import uniqid from "uniqid";
 
 export async function POST(req) {

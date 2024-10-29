@@ -39,15 +39,14 @@ export default function MenuItemPriceProps({
         className="inline-flex p-1 border-0 justify-start"
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        {isOpen && <Up />}
-        {!isOpen && <Down />}
+        {isOpen ? <Up /> : <Down />}
         <span>{name}</span>
         <span>({props?.length})</span>
       </button>
       <div className={isOpen ? "block" : "hidden"}>
         {props?.length > 0 &&
           props.map((size, index) => (
-            <div className="flex items-end gap-2">
+            <div key={index} className="flex items-end gap-2">
               <div>
                 <label>Name</label>
                 <input
@@ -83,7 +82,7 @@ export default function MenuItemPriceProps({
           className="bg-white items-center"
         >
           <Plus className="w-5 h-5" />
-          <span>{addLabel}</span>
+          <span>{addLabel}</span>  
         </button>
       </div>
     </div>

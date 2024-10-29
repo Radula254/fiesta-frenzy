@@ -119,7 +119,7 @@ export default function CategoriesPage() {
         <h2 className="mt-8 text-sm text-gray-500">Existing Category</h2>
         {categories?.length > 0 &&
           categories.map((c) => (
-            <div className="bg-gray-100 rounded-xl flex p-2 px-4 gap-1 mb-2 items-center">
+            <div key={c._id} className="bg-gray-100 rounded-xl flex p-2 px-4 gap-1 mb-2 items-center">
               <div className="grow">{c.name}</div>
               <div className="flex gap-1">
                 <button
@@ -131,7 +131,7 @@ export default function CategoriesPage() {
                 >
                   Edit
                 </button>
-                <DeleteButton label="Delete" onDelete={() => handleDeleteClick(c._id)}/>
+                <DeleteButton label="Delete" onDelete={() => handleDeleteClick(c._id)} />
               </div>
             </div>
           ))}

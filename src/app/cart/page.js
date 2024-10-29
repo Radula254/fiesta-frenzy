@@ -14,11 +14,11 @@ export default function CartPage() {
 
   useEffect(() => {
     if (profileData?.city) {
-        const {phone, streetAddress, city, postalCode, country} = profileData;
-        const addressFromProfile = {phone, streetAddress, city, postalCode, country};
-        setAddress(addressFromProfile);
+      const { phone, streetAddress, city, postalCode, country } = profileData;
+      const addressFromProfile = { phone, streetAddress, city, postalCode, country };
+      setAddress(addressFromProfile);
     }
-  }, [profileData])
+  }, [profileData]);
 
   let total = 0;
   for (const p of cartProducts) {
@@ -73,13 +73,13 @@ export default function CartPage() {
           )}
           {cartProducts?.length > 0 &&
             cartProducts.map((product, index) => (
-              <div className="flex items-center gap-4 mb-2 border-b py-2">
+              <div key={index} className="flex items-center gap-4 mb-2 border-b py-2">
                 <div className="w-24">
                   <Image
                     width={240}
                     height={240}
                     src={product.image}
-                    alt={""}
+                    alt=""
                   />
                 </div>
                 <div>
@@ -91,8 +91,8 @@ export default function CartPage() {
                   )}
                   {product.extras?.length > 0 && (
                     <div className="text-sm text-gray-500">
-                      {product.extras.map((extra) => (
-                        <div>
+                      {product.extras.map((extra, extraIndex) => (
+                        <div key={extraIndex}>
                           {extra.name} ${extra.price}
                         </div>
                       ))}
@@ -120,7 +120,7 @@ export default function CartPage() {
         </div>
         <div className="bg-gray-100 p-4 rounded-lg">
           <h2>Checkout</h2>
-          <form>
+          <form onSubmit={handleSubmit}>
             <AddressInputs
               addressProps={address}
               setAddressProp={handleAddressChange}

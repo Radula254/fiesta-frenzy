@@ -5,8 +5,7 @@ import MenuItemTile from "@/components/menu/MenuItemTile";
 import Image from "next/image";
 
 export default function MenuItem(menuItem) {
-  const { image, name, description, price, sizes, extraIngredientPrices } =
-    menuItem;
+  const { image, name, description, price, sizes, extraIngredientPrices } = menuItem;
   const [selectedSize, setSelectedSize] = useState(sizes?.[0] || null);
   const [selectedExtras, setSelectedExtras] = useState([]);
   const [showPopUp, setShowPopUp] = useState(false);
@@ -32,9 +31,7 @@ export default function MenuItem(menuItem) {
     if (checked) {
       setSelectedExtras(prev => [...prev, extraThing]);
     } else {
-      setSelectedExtras(prev => {
-        return prev.filter(e => e.name !== extraThing.name);
-      });
+      setSelectedExtras(prev => prev.filter(e => e.name !== extraThing.name));
     }
   }
 
@@ -71,8 +68,8 @@ export default function MenuItem(menuItem) {
               {sizes.length > 0 && (
                 <div className="p-2">
                   <h3 className="text-center text-gray-700">Pick your size</h3>
-                  {sizes.map((size) => (
-                    <label className="flex items-center gap-2 p-4 border rounded-md mb-1">
+                  {sizes.map((size, index) => (
+                    <label key={index} className="flex items-center gap-2 p-4 border rounded-md mb-1">
                       <input type="radio" onClick={() => setSelectedSize(size)} checked={selectedSize?.name === size.name} name="size" />
                       {size.name} ${price + size.price}
                     </label>
@@ -82,8 +79,8 @@ export default function MenuItem(menuItem) {
               {extraIngredientPrices?.length > 0 && (
                 <div className="p-2">
                   <h3 className="text-center text-gray-700">Add extras...</h3>
-                  {extraIngredientPrices.map((extraThing) => (
-                    <label className="flex items-center gap-2 p-4 border rounded-md mb-1">
+                  {extraIngredientPrices.map((extraThing, index) => (
+                    <label key={index} className="flex items-center gap-2 p-4 border rounded-md mb-1">
                       <input type="checkbox" onClick={ev => handleExtraThingClick(ev, extraThing)} name="{extraThing.name}" />
                       {extraThing.name} +${extraThing.price}
                     </label>

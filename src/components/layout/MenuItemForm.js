@@ -9,7 +9,7 @@ export default function MenuItemForm({ onSubmit, menuItem }) {
   const [description, setDescription] = useState(menuItem?.description || "");
   const [price, setPrice] = useState(menuItem?.price || "");
   const [sizes, setSizes] = useState(menuItem?.sizes || []);
-  const [category, setCategory] = useState(menuItem?.category || '');
+  const [category, setCategory] = useState(menuItem?.category || "");
   const [extraIngredientPrices, setExtraIngredientPrices] = useState(menuItem?.extraIngredientPrices || []);
   const [categories, setCategories] = useState([]);
 
@@ -48,9 +48,9 @@ export default function MenuItemForm({ onSubmit, menuItem }) {
           />
           <label>Category</label>
           <select value={category} onChange={ev => setCategory(ev.target.value)}>
-            <option value="" disabled selected>Select a category</option>
+            <option value="" disabled>Select a category</option>
             {categories?.length > 0 && categories.map(c => (
-              <option value={c._id}>{c.name}</option>
+              <option key={c._id} value={c._id}>{c.name}</option>
             ))}
           </select>
           <label>Price</label>

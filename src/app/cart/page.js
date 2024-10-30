@@ -6,11 +6,15 @@ import { useContext, useEffect, useState } from "react";
 import Trash from "@/components/icons/Trash";
 import AddressInputs from "@/components/layout/AddressInputs";
 import { useProfile } from "@/components/UseProfile";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export default function CartPage() {
   const { cartProducts, removeCartProduct } = useContext(CartContext);
   const [address, setAddress] = useState({});
   const { data: profileData } = useProfile();
+  const session = useSession();
+  const {status} = session;
 
   useEffect(() => {
     if (profileData?.city) {
@@ -59,6 +63,10 @@ export default function CartPage() {
     } finally {
       setLoading(false);
     }
+  }
+
+  if (status === 'unauthenticated') {
+    return redirect('/login');
   }
 
   return (

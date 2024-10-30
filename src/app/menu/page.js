@@ -1,11 +1,15 @@
 "use client";
 import SectionHeaders from "@/components/layout/SectionHeaders";
 import MenuItem from "@/components/menu/MenuItem";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function MenuPage() {
   const [categories, setCategories] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
+  const session = useSession();
+  const {status} = session;
 
   useEffect(() => {
     fetch("/api/categories").then((res) => {
@@ -15,6 +19,10 @@ export default function MenuPage() {
       res.json().then((menuItems) => setMenuItems(menuItems));
     });
   }, []);
+
+  if (status === 'unauthenticated') {
+    return redirect('/login');
+  }
 
   return (
     <section className="mt-8">

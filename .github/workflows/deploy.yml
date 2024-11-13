@@ -30,6 +30,7 @@ jobs:
       - name: Deploy to Azure VM
         run: |
           rsync -avz --delete \
+            --exclude='.env' \
             --exclude=node_modules \
             --exclude=.next \
             --exclude=.git \

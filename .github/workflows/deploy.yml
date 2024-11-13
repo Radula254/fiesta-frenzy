@@ -29,7 +29,7 @@ jobs:
             --exclude=node_modules \
             --exclude=.next \
             --exclude=.git \
-            ./ <YOUR_AZURE_USER>@<YOUR_AZURE_IP>:/var/www/fiesta-frenzy
+            ./ ssh root@4.221.184.222:/var/www/fiesta-frenzy
 
       - name: Run build and restart PM2
         run: |

@@ -1,0 +1,42 @@
+name: Deploy to Azure VM
+
+on:
+  push:
+    branches:
+      - master  
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.8.1
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y rsync
+
+      - name: Deploy to Azure VM
+        run: |
+          rsync -avz --delete \
+            --exclude=node_modules \
+            --exclude=.next \
+            --exclude=.git \
+            ./ <YOUR_AZURE_USER>@<YOUR_AZURE_IP>:/var/www/fiesta-frenzy
+
+      - name: Run build and restart PM2
+        run: |
+          ssh <YOUR_AZURE_USER>@<YOUR_AZURE_IP> "
+            cd /var/www/fiesta-frenzy &&
+            npm install &&
+            npm run build &&
+            pm2 restart fiesta-frenzy &&
+            sudo systemctl restart apache2
+          "
